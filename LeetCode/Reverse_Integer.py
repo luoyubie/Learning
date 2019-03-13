@@ -2,7 +2,7 @@
 # @Author: Bie
 # @Time: 2018年10月28日
 
-# 整数反转
+
 def reverse(x):
     """
     :type x: int
