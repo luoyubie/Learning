@@ -2,30 +2,14 @@
 # @Author: Bie
 # @Time: 2019年03月12日
 
-from math import hypot
+def fib(max):
+    n,a,b = 0,0,1
+    while n<max:
+        yield b
+        a,b = b,a+b
+        n += 1
+    return 'done'
 
-class Vector:
-    def __init__(self,x=0,y=0):
-        self.x = x
-        self.y = y
-    def __repr__(self):
-        return 'Vector(%r,%r)'%(self.x,self.y)
+for i in fib(10):
+    print(i)
 
-    def __abs__(self):
-        return hypot(self.x,self.y)
-
-    def __bool__(self):
-        return bool(abs(self))
-
-    def __add__(self, other):
-        x = self.x + other.x
-        y = self.y + other.y
-        return Vector(x,y)
-
-    def __mul__(self,scalar):
-        return Vector(self.x * scalar , self.y * scalar)
-
-
-
-
-# rimvalue.cn 
