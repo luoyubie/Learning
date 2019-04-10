@@ -37,4 +37,5 @@ delhi = City._make(delhi_data)
 # _asdict() 把具名元组以 collections.OrderedDict 的形式返回，我们可以利用它来把元组里的信息友好地呈现出来
 for key, value in delhi._asdict().items():
     print(key + ':', value)
+    
 """
