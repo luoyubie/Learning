@@ -1,16 +1,28 @@
 # _*_ coding:utf-8 _*_
 # @Author: Bie
 # @Time: 2019年03月12日
+import dis
+import bisect
+import sys
 
-metro_areas = [
-('Tokyo','JP',36.933,(35.689722,139.691667)),
-('Delhi NCR', 'IN', 21.935, (28.613889, 77.208889)),
-('Mexico City', 'MX', 20.142, (19.433333, -99.133333)),
-('New York-Newark', 'US', 20.104, (40.808611, -74.020386)),
-('Sao Paulo', 'BR', 19.649, (-23.547778, -46.635833)),
-]
-print('{:15} | {:^9} | {:^9}'.format('', 'lat.', 'long.'))
-fmt = '{:15} | {:9.4f} | {:9.4f}'
-for name, cc, pop, (latitude, longitude) in metro_areas:
-    if longitude <= 0:
-        print(fmt.format(name, latitude, longitude))
+HAYSTACK = [1, 4, 5, 6, 8, 12, 15, 20, 21, 23, 23, 26, 29, 30]
+NEEDLES = [0, 1, 2, 5, 8, 10, 22, 23, 29, 30, 31]
+ROW_FMT = '{0:2d} @ {1:2d} {2}{0:<2d}'
+
+def demo(bisect_fn):
+    for needle in reversed(NEEDLES):
+        position = bisect_fn(HAYSTACK,needle)
+        offset = position * '  |'
+        print(ROW_FMT.format(needle, position, offset))
+
+if __name__ == '__main__':
+    if sys.argv[-1] == 'left':
+        bisect_fn = bisect.bisect_left
+    else:
+        bisect_fn = bisect.bisect
+    print('DEMO:', bisect_fn.__name__)
+    print('haystack ->', ' '.join('%2d' % n for n in HAYSTACK))
+    demo(bisect_fn)
+
+
+
