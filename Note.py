@@ -12,4 +12,45 @@ fun1 = getattr(moudle,'文件内的函数名')
 md = __import__("模块名",fromlist=True)
 fun2 = getattr(md,"函数名")
 
+# H5相关
+import os
+import re
+from tables import *
+import pandas as pd
+from pandas import DataFrame
+import datetime
+import time
+
+
+
+# 实现一个优先队列
+import heapq
+class PriorityQueue:
+    def __init__(self):
+        self._queue = []
+        self._index = 0
+
+    def push(self,item,priority):
+        heapq.heappush(self._queue,(-priority,self._index,item))
+        self._index += 1
+
+    def pop(self):
+        return heapq.heappop(self._queue)[-1]
+
+class Item:
+    def __init__(self,name):
+        self.name = name
+
+    def __repr__(self):
+        return 'Item({!r})'.format(self.name)
+
+
+
+
+
+
+
+
+
+
 
