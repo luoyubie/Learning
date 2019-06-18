@@ -55,7 +55,7 @@ if __name__ == "__main__":
     returnMat, classLable = file2matrix(filename)
     print(classLable)
     print(returnMat)
-    
+
 
 
 
