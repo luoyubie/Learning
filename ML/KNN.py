@@ -31,6 +31,46 @@ def classsify0(inX,dataSet,labels,k):
     return sortedClassCount[0][0]
 
 
-group,labels = creatDataSet()
+def file2matrix(filename):
+    fr = open(filename)
+    arrayOlines = fr.readlines()
+    line_num = len(arrayOlines)
+    returnMat = np.zeros((line_num,3))
+    index = 0
+    classLable = []
+    for line in arrayOlines:
+        line = line.strip()
+        listfromline = line.split('\t')
+        returnMat[index,:] = listfromline[:3]
+        classLable.append(int(listfromline[-1]))
+        index += 1
+    return returnMat,classLable
 
-print(classsify0([0,0],group,labels,3))
+
+
+if __name__ == "__main__":
+    # group,labels = creatDataSet()
+    # print(classsify0([0,0],group,labels,3))
+    filename = "E:\code\Learning\ML\Data\Ch02\datingTestSet2.txt"
+    returnMat, classLable = file2matrix(filename)
+    print(classLable)
+    print(returnMat)
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
