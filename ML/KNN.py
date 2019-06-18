@@ -46,15 +46,36 @@ def file2matrix(filename):
         index += 1
     return returnMat,classLable
 
+def autoNorm(dataSet):
+    # 数据归一化处理
+    m = dataSet.shape[0]
+    minVal = dataSet.min(0)
+    maxVal = dataSet.max(0)
+    minVal_Set = np.tile(minVal,(m,1))
+    ranges = maxVal - minVal
+    ranges_Set = np.tile(ranges,(m,1))
+    norm_Set = (dataSet - minVal_Set)/(ranges_Set)
+    return norm_Set
+
+
+def datingClassTest():
+    hoRatio = 0.1
+    filename = "E:\code\Learning\ML\Data\Ch02\datingTestSet2.txt"
+    returnMat, classLable = file2matrix(filename)
+    normSet = autoNorm(returnMat)
+    m = normSet.shape[0]
+    testNum = int(hoRatio * m)
+    error_num = 0.0
+    for i in range(testNum):
+        result_label = classsify0(normSet[i,:], normSet[testNum:m,:], classLable[testNum:m], 5)
+        print("The classifier came back with %s,The real label is %s" % (result_label,classLable[i]))
+        if result_label != classLable[i]:
+            error_num += 1
+    print("The classifier error ratio is %f" % (error_num/float(testNum)))
 
 
 if __name__ == "__main__":
-    # group,labels = creatDataSet()
-    # print(classsify0([0,0],group,labels,3))
-    filename = "E:\code\Learning\ML\Data\Ch02\datingTestSet2.txt"
-    returnMat, classLable = file2matrix(filename)
-    print(classLable)
-    print(returnMat)
+    datingClassTest()
 
 
 
