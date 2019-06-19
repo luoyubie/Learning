@@ -110,11 +110,6 @@ def Digital_Recognition():
     print("The classifier error ratio is %f" % (error_num/float(len(test_labels))))
 
 
-
-
-
-
-
 if __name__ == "__main__":
     # datingClassTest()
     Digital_Recognition()
