@@ -103,7 +103,7 @@ def Digital_Recognition():
     test_dataSet,test_labels = _get_Vec(path_test)
     error_num = 0.0
     for i in range(test_dataSet.shape[0]):
-        predict_label = classsify0(test_dataSet[i,:],train_dataSet,train_labels,5)
+        predict_label = classsify0(test_dataSet[i,:],train_dataSet,train_labels,3)
         print("The classifier came back label is %s,The real label is %s"%(predict_label,test_labels[i]))
         if predict_label != test_labels[i]:
             error_num += 1
