@@ -53,7 +53,7 @@ def majorityCnt(classlist):
         if vote not in classCount.keys():
             classCount[vote] = 0
         classCount[vote] += 1
-    sortedClassCount = sorted(classCount.items,key=operator.itemgetter(1),reverse=True)
+    sortedClassCount = sorted(classCount.items(),key=operator.itemgetter(1),reverse=True)
     return sortedClassCount[0][0]
 
 
@@ -66,14 +66,14 @@ def createTree(dataSet,labels):
     bestFeat = getBestFeature(dataSet)
     bestFeatLable = labels[bestFeat]
     myTree = {bestFeatLable:{}}
-    print("myTree",myTree)
     del(labels[bestFeat])
     featValues = [example[bestFeat] for example in dataSet]
     uniqueVals = set(featValues)
+    i = 0
     for value in uniqueVals:
+        i += 1
         subLables = labels[:]
         myTree[bestFeatLable][value] = createTree(splitDataSet(dataSet,bestFeat,value),subLables)
-        print("myTree赋值",myTree)
     return myTree
 
 
