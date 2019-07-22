@@ -30,12 +30,15 @@ def setOfWords2Vec(vocabList,inputSet):
             print("the word：%s is not in my Vocabulary!" % word)
     return returnVec
 
+listOPosts,listClasses = loadDataSet()
+print(listOPosts)
+print(listClasses)
+
+myVocabList = createVocabList(listOPosts)
+print(myVocabList)
 
 
-
-
-
-
+print(setOfWords2Vec(myVocabList,listOPosts[1]))
 
 
 
