@@ -39,3 +39,14 @@ for key, value in delhi._asdict().items():
     print(key + ':', value)
     
 """
+
+# 不可变的映射类型
+from types import MappingProxyType
+a = {'a':1,'b':2}
+# a_proxy只是一个字典的视图不能修改添加等，a更新则a_proxy会同步更新
+a_proxy = MappingProxyType(a)
+a['c'] = 3
+print(a_proxy)
+a.update({'d':4})
+print(a_proxy['d'])
+
