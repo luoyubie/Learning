@@ -40,4 +40,5 @@ def main2():
 
 
 if __name__ == "__main__":
+    # 需要在main中运行多进程程序
     main2()
