@@ -18,10 +18,10 @@ class BingoCage:
     def __call__(self):
         return self.pick()
 
-# bingo = BingoCage(range(10))
-# # 以下两种调用方法效果一样
-# print(bingo.pick())
-# print(bingo())
+bingo = BingoCage(range(10))
+# 以下两种调用方法效果一样
+print(bingo.pick())
+print(bingo())
 
 # -----------------------------------------
 
