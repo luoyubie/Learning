@@ -9,8 +9,8 @@ import pandas_datareader.data as web
 import datetime as dt
 import matplotlib.pyplot as plt
 
-
-yahoo = web.DataReader('600018.SS', data_source='yahoo', start=dt.datetime(2019,1,1),end=dt.date.today())
+# 600018.SS
+yahoo = web.DataReader('000001.SS', data_source='yahoo', start=dt.datetime(2019,1,1),end=dt.date.today())
 
 
 # 计算波动率
