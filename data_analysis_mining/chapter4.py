@@ -50,56 +50,95 @@
 # data.to_excel(outfile)
 # -----------------------------------------------
 
-# 连续属性离散化
+# # 连续属性离散化
+# import pandas as pd
+# import numpy as np
+# import matplotlib.pyplot as plt
+#
+# plt.rcParams['font.sans-serif'] = ['SimHei']  # 正常显示中文标签
+# plt.rcParams['axes.unicode_minus'] = False  # 用来正常显示负号
+#
+# datafile = 'D:\PycharmProject\\analysis_mining_data\chapter4\demo\data\discretization_data.xls'
+#
+# data = pd.read_excel(datafile)
+# data = data[u'肝气郁结证型系数'].copy()
+# k = 4
+#
+# # 等宽离散化，各个类比一次命名为0,1,2,3
+# d1 = pd.cut(data, k, labels=range(k))
+#
+# # 等频率离散化
+# w1 = [1.0 * i / k for i in range(k + 1)]
+# w1 = data.describe(percentiles=w1)[4:4 + k + 1]
+# print(w1)
+# w1[0] = w1[0] * (1 - 1e-10)
+# d2 = pd.cut(data, w1, labels=range(k))
+#
+# # 基于聚类分析的离散化
+# from sklearn.cluster import KMeans
+#
+# kmodel = KMeans(n_clusters=k, n_jobs=4)  # 建立模型，n_jobs是并行数，一般等于cpu数比较好
+# data1 = np.array(data)
+# kmodel.fit(data1.reshape(len(data), 1))
+# # 输出聚类中心，并且排序（默认随机）
+#
+# c = pd.DataFrame(kmodel.cluster_centers_).sort_values(0)
+# # 相邻两项求和点作为边界点
+# # w = pd.rolling_mean(c,2).iloc[1:]
+# w = c.rolling(2).mean().iloc[1:]
+# # 把首末边界点加上
+# w = [0] + list(w[0]) + [data.max()]
+# d3 = pd.cut(data, w, labels=range(k))
+#
+#
+# # def cluster_plot(d, k, title):
+# #     plt.figure(figsize=(8, 3))
+# #     for j in range(k):
+# #         plt.plot(data[d == j], [j for i in d[d == j]], 'o')
+# #
+# #     plt.ylim(-0.5, k - 0.5)
+# #     return plt
+# #
+# #
+# # cluster_plot(d1, k,title="等宽离散化").show()
+# # cluster_plot(d2, k,title="等频离散化").show()
+# # cluster_plot(d3, k,title="聚类离散化").show()
+#
+# _,axes = plt.subplots(2,2,figsize=(8,6))
+# for j in range(k):
+#     axes[0][0].plot(data[d1 == j], [j for i in d1[d1 == j]], 'o')
+#     axes[0][1].plot(data[d2 == j], [j for i in d2[d2 == j]], 'o')
+#     axes[1][0].plot(data[d3 == j], [j for i in d3[d3 == j]], 'o')
+# plt.ylim(-0.5, k - 0.5)
+# plt.show()
+# # -------------------------------------------------
+
 import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
 
-plt.rcParams['font.sans-serif'] = ['SimHei']  # 正常显示中文标签
-plt.rcParams['axes.unicode_minus'] = False  # 用来正常显示负号
+inputfile = 'D:\PycharmProject\\analysis_mining_data\chapter4\demo\data\principal_component.xls'
 
-datafile = 'D:\PycharmProject\\analysis_mining_data\chapter4\demo\data\discretization_data.xls'
+data = pd.read_excel(inputfile, header=None)
+print(data)
 
-data = pd.read_excel(datafile)
-data = data[u'肝气郁结证型系数'].copy()
-k = 4
+from sklearn.decomposition import PCA
 
-# 等宽离散化，各个类比一次命名为0,1,2,3
-d1 = pd.cut(data, k, labels=range(k))
+# pca = PCA()
+# pca.fit(data)
+# # 返回模型的各个特征向量
+# com = pca.components_
+# print(com)
+# # 返回各个成分各自的方差百分比
+# var_ratio = pca.explained_variance_ratio_
+# print(var_ratio)
+# print(var_ratio[:3].sum())
 
-# 等频率离散化
-w1 = [1.0 * i / k for i in range(k + 1)]
-w1 = data.describe(percentiles=w1)[4:4 + k + 1]
-print(w1)
-w1[0] = w1[0] * (1 - 1e-10)
-d2 = pd.cut(data, w1, labels=range(k))
+pca2 = PCA(3)
+pca2.fit(data)
+# 降低维度
+low_d = pca2.transform(data)
 
-# 基于聚类分析的离散化
-from sklearn.cluster import KMeans
+pca_df = pd.DataFrame(low_d)
+print(pca_df)
 
-kmodel = KMeans(n_clusters=k, n_jobs=4)  # 建立模型，n_jobs是并行数，一般等于cpu数比较好
-data1 = np.array(data)
-kmodel.fit(data1.reshape(len(data), 1))
-# 输出聚类中心，并且排序（默认随机）
-
-c = pd.DataFrame(kmodel.cluster_centers_).sort_values(0)
-# 相邻两项求和点作为边界点
-# w = pd.rolling_mean(c,2).iloc[1:]
-w = c.rolling(2).mean().iloc[1:]
-# 把首末边界点加上
-w = [0] + list(w[0]) + [data.max()]
-d3 = pd.cut(data, w, labels=range(k))
-
-
-def cluster_plot(d, k):
-    plt.figure(figsize=(8, 3))
-    for j in range(k):
-        plt.plot(data[d == j], [j for i in d[d == j]], 'o')
-
-    plt.ylim(-0.5, k - 0.5)
-    return plt
-
-
-cluster_plot(d1, k).show()
-cluster_plot(d2, k).show()
-cluster_plot(d3, k).show()
+# 还可以用以下函数来恢复原数据
+# pca2.inverse_transform(low_d)
