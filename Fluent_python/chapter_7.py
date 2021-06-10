@@ -1,5 +1,5 @@
 # coding:utf-8
-
+import sys
 def deco(func):
     def inner():
         print('running inner()')
@@ -9,7 +9,7 @@ def deco(func):
 def target():
     print('running target() !')
 
-print(target)
+print(sys.argv[0])
 
 
 
